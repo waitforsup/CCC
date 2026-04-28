@@ -2,10 +2,7 @@
 
 `define UD #1
 
-module rgmii_interface#(
-    parameter   delay_step_b = 8'd220  ,// 0~247 , 10ps/step  revise:官方247 A0
-    parameter   delay_step_c = 8'd220  // 0~247 , 10ps/step  //revise，官方是100,X10ps=延迟时间
-)(
+module rgmii_interface(
     input        rst,
     output       rgmii_clk/*synthesis PAP_MARK_DEBUG="1"*/,
     input        rgmii_clk_90p,
@@ -50,9 +47,9 @@ module rgmii_interface#(
                 .CLK       (  rgmii_clk          ),// INPUT           
                 .D0        (  mac_tx_data[i]     ),// INPUT         
                 .D1        (  mac_tx_data[i+4]   ),// INPUT         
-                .RS        (  rst               ) // INPUT           
+                .RS        (  1'b0               ) // INPUT           
             );      
-            //转成 RGMII DDR 输出,双边沿采样
+            
            GTP_OUTBUF #(
             .IOSTANDARD ("LVCMOS33"),
             .SLEW_RATE ("FAST"),
@@ -75,9 +72,9 @@ module rgmii_interface#(
         .CLK       (  rgmii_clk                 ),// INPUT   
         .D0        (  mac_tx_data_valid         ),// INPUT   
         .D1        (  mac_tx_data_valid ^ 1'b0  ),// INPUT   
-        .RS        (  rst                      ) // INPUT   
+        .RS        (  1'b0                      ) // INPUT   
     );                                       
-    //RX_CTL = TX_EN ⊕ TX_ER（这里没用 error）
+    
    GTP_OUTBUF#(
       .IOSTANDARD ("LVCMOS33"),
       .SLEW_RATE ("FAST"),
@@ -97,24 +94,25 @@ module rgmii_interface#(
         .CLK       (  rgmii_clk       ),// INPUT   
         .D0        (  1'b1            ),// INPUT   
         .D1        (  1'b0            ),// INPUT   
-        .RS        (  rst            ) // INPUT   
+        .RS        (  1'b0            ) // INPUT   
    );
-    //生成：125MHz 时钟
-
+    
+    wire [7:0] delay_step_c ;
     wire [7:0] delay_step_clk ;
     wire       rgmii_txc_dly;
     
-
-    //给 TX 时钟人为加延迟,RGMII标准要求：TXC 必须比 TXD 延迟 ~2ns否则 PHY 采样不到正确数据
+    assign delay_step_c = 8'd50;   // 0~247 , 10ps/step
+    
     assign delay_step_clk=((delay_step_c>>1)^delay_step_c);  // only support gray code
     
     GTP_IODELAY_E2 #(
-        .DELAY_STEP_SEL ("PORT")//PORT PARAMETER
+        .DELAY_STEP_SEL ("PORT"),//PORT PARAMETER
+        .DELAY_STEP_VALUE( )
     ) tx_clk_delay (
-        .DI            (  rgmii_txc_obuf  ),// tx clk input                      
+        .DI            (  rgmii_txc_obuf  ),// rx clk input                      
         .DELAY_SEL     (  1'b1            ),                                    
         .DELAY_STEP    (  delay_step_clk  ),                                    
-        .DO            (  rgmii_txc_dly   ),// tx clk output                    
+        .DO            (  rgmii_txc_dly   ),// rx clk output                    
         .EN_N          (  1'b0            ) // INPUT                            
     );                                                                                                            
     
@@ -135,9 +133,10 @@ module rgmii_interface#(
     wire        rgmii_rx_ctl_ibuf;
     wire [3:0]  rgmii_rxd_ibuf;
 
-
+    wire [7:0] delay_step_b ;
     wire [7:0] delay_step_gray ;
-
+    
+    assign delay_step_b = 8'd220;   // 0~247 , 10ps/step
     
     assign delay_step_gray=((delay_step_b>>1)^delay_step_b);  // only support gray code
     
@@ -149,7 +148,7 @@ module rgmii_interface#(
 //        .I(rgmii_rxc) // INPUT  
 //    );
     
-    parameter DELAY_STEP = 8'hE6;//revise，官方E6-230
+    parameter DELAY_STEP = 8'hE6;
 //    
 //    GTP_IODELAY_E2 #(
 //        .DELAY_STEP_VALUE   (  DELAY_STEP          ),
@@ -175,12 +174,12 @@ module rgmii_interface#(
         .O(rgmii_rx_ctl_ibuf),// OUTPUT  
         .I(rgmii_rx_ctl) // INPUT  
     );
-    //把外部引脚信号送进 FPGA
+    
     wire  rgmii_rx_ctl_delay;
 
     GTP_IODELAY_E2 #(
         .DELAY_STEP_VALUE(  DELAY_STEP          ),
-        .DELAY_STEP_SEL  (  "PORT"               ), //自适应延时与固定
+        .DELAY_STEP_SEL  (  "PORT"              ),
         .TDELAY_EN       (  "FALSE"             )
     ) delay_rgmii_rx_ctl (
         .DELAY_STEP      (  delay_step_gray     ),// INPUT[7:0]         
@@ -189,7 +188,7 @@ module rgmii_interface#(
         .DI              (  rgmii_rx_ctl_ibuf   ),// INPUT              
         .EN_N            (  1'b0                ) // INPUT              
     );
-//人为调整信号到达时间（ps级），RGMII规范：数据和时钟是“同时到达”的（edge aligned），人为错开 ~2ns
+
     GTP_IDDR_E1 #(
         .GRS_EN       (  "TRUE"                    ),
         .IDDR_MODE    (  "SAME_PIPELINED"          ),
@@ -200,9 +199,9 @@ module rgmii_interface#(
         .CE           (  1'b1                      ), // INPUT  
         .CLK          (  rgmii_clk                 ),// INPUT  
         .D            (  rgmii_rx_ctl_delay        ),  // INPUT  
-        .RS           (  rst                      )  // INPUT  
+        .RS           (  1'b0                      )  // INPUT  
     );
-    //拼成：gmii_rxd[7:0]。又转回单边沿
+    
     wire [5:0] rx_ctl_nc;
     wire       gmii_ctl;
     wire       rgmii_rx_valid_xor_error;
@@ -252,7 +251,7 @@ module rgmii_interface#(
                 .CE               (  1'b1               ),// INPUT      
                 .CLK              (  rgmii_clk          ),// INPUT      
                 .D                (  rgmii_rxd_delay[j] ),// INPUT      
-                .RS               (  rst              ) // INPUT      
+                .RS               (  1'b0               ) // INPUT      
             );
         end
     endgenerate

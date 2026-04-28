@@ -346,16 +346,16 @@ always @(posedge clk or negedge rst_n) begin
                     end    
                 end
                 if(tx_bit_sel == 1'b0)
-                    gmii_txd <= tx_data[23:16];  //低位开始发
+                    gmii_txd <= tx_data[31:24]; 
                 else if(tx_bit_sel == 3'd1)
-                    gmii_txd <= tx_data[31:24];
+                    gmii_txd <= tx_data[23:16];
                 else if(tx_bit_sel == 3'd2) begin
-                    gmii_txd <= tx_data[7:0]; 
+                    gmii_txd <= tx_data[15:8]; 
                     if(data_cnt != tx_data_num - 16'd2)
                         tx_req <= 1'b1;  
                 end
                 else if(tx_bit_sel == 3'd3)
-                    gmii_txd <= tx_data[15:8];                                                                                                  
+                    gmii_txd <= tx_data[7:0];                                                                                                  
             end  
             st_crc      : begin                          //发送CRC校验值
                 gmii_tx_en <= 1'b1;

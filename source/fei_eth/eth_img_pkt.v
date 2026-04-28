@@ -17,10 +17,10 @@ module eth_img_pkt(
     );    
     
 //parameter define
-parameter  CMOS_H_PIXEL = 16'd1980;  //图像水平方向分辨率
+parameter  CMOS_H_PIXEL = 16'd1920;  //图像水平方向分辨率
 parameter  CMOS_V_PIXEL = 16'd1080;  //图像垂直方向分辨率
-parameter  UDP_DATA_SIZE = 16'd1980; //UDP数据长度（不包含首部）
-parameter  ETH_TRAN_DELAY = 11'd800; //帧间隔延迟
+parameter  UDP_DATA_SIZE = 16'd1024; //UDP数据长度（不包含首部）
+parameter  ETH_TRAN_DELAY = 11'd3000; //包间隔延迟 25us
 //图像帧头,用于标志一帧数据的开始
 parameter  IMG_FRAME_HEAD = {32'hf0_5a_a5_0f};
 
@@ -112,6 +112,28 @@ always @(posedge cam_pclk or negedge rst_n) begin
     end    
 end 
 
+reg [2:0] frame_div_cnt;
+reg       frame_valid;   // 决定这一帧要不要发，现在是60fs的输入，我们最终实现1秒发送10个图片，所以改成抽取
+
+
+always @(posedge cam_pclk or negedge rst_n) begin
+    if(!rst_n) begin
+        frame_div_cnt <= 0;
+        frame_valid   <= 0;
+    end
+    else if(pos_vsync) begin
+        if(frame_div_cnt == 5) begin
+            frame_div_cnt <= 0;
+            frame_valid   <= 1;   //  这一帧保留
+        end
+        else begin
+            frame_div_cnt <= frame_div_cnt + 1;
+            frame_valid   <= 0;   //  丢掉
+        end
+    end
+end
+
+reg   [31:0]    frame_id;
 //将帧头和图像数据写入FIFO
 always @(posedge cam_pclk or negedge rst_n) begin
     if(!rst_n || pos_vsync) begin
@@ -121,31 +143,30 @@ always @(posedge cam_pclk or negedge rst_n) begin
         img_pkt_cnt <= 'd1;
     end
     else begin
-        if(neg_vsync) begin
-            wr_fifo_en <= 1'b1;
-            wr_fifo_data <= img_pkt_cnt;                  //UDP包标志位
-            img_pkt_cnt <= img_pkt_cnt + 'd1;
+        if(neg_vsync && frame_valid) begin
+            wr_fifo_en   <= 1'b1;
+            wr_fifo_data <= IMG_FRAME_HEAD;   // 帧头
         end
-        else if(neg_vsync_d0) begin
-            wr_fifo_en <= 1'b1;
-            wr_fifo_data <= IMG_FRAME_HEAD;               //帧头
+        else if(neg_vsync_d0 && frame_valid) begin
+            wr_fifo_en   <= 1'b1;
+            wr_fifo_data <= frame_id;         // 帧号
         end
-        else if(neg_vsync_d1) begin
+        else if(neg_vsync_d1 && frame_valid) begin
             wr_fifo_en <= 1'b1;
             wr_fifo_data <= {CMOS_H_PIXEL,CMOS_V_PIXEL};  //水平和垂直方向分辨率
         end
-        else if(img_data_en && wr_sw) begin
+        else if(img_data_en && wr_sw && frame_valid) begin
             wr_fifo_en <= 1'b1;
             img_de_cnt <= img_de_cnt + 'd1;
             wr_fifo_data <= {img_data_d0,img_data};       //图像数据位拼接,16位转32位
         end
-        else if(img_de_cnt == 480) begin
+        else if(img_de_cnt == (UDP_DATA_SIZE >> 2) && frame_valid) begin
             wr_fifo_en <= 1'b1;
             wr_fifo_data <= img_pkt_cnt;
             img_pkt_cnt <= img_pkt_cnt + 'd1;
             
         end
-        else if(neg_de) begin  
+        else if(neg_de && frame_valid) begin  
             wr_fifo_en <= 1'b1;
             wr_fifo_data <= img_pkt_cnt;           //de结束后写入计数
             img_pkt_cnt <= img_pkt_cnt + 'd1;

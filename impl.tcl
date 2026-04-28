@@ -917,3 +917,108 @@ dev_map
 pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
 report_timing 
 gen_bit_stream -master_configuration_clock_frequency {25M} 
+set_arch -family Logos2 -device PG2L100H -speedgrade -6 -package FBG676
+compile -top_module hdmi_ddr_ov5640_top
+synthesize -ads -selected_syn_tool_opt 2 
+dev_map 
+pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
+report_timing 
+gen_bit_stream -master_configuration_clock_frequency {25M} 
+set_arch -family Logos2 -device PG2L100H -speedgrade -6 -package FBG676
+compile -top_module hdmi_ddr_ov5640_top
+synthesize -ads -selected_syn_tool_opt 2 
+dev_map 
+pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
+report_timing 
+gen_bit_stream -master_configuration_clock_frequency {25M} 
+set_arch -family Logos2 -device PG2L100H -speedgrade -6 -package FBG676
+compile -top_module hdmi_ddr_ov5640_top
+synthesize -ads -selected_syn_tool_opt 2 
+dev_map 
+pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
+report_timing 
+gen_bit_stream -master_configuration_clock_frequency {25M} 
+set_arch -family Logos2 -device PG2L100H -speedgrade -6 -package FBG676
+compile -top_module hdmi_ddr_ov5640_top
+synthesize -ads -selected_syn_tool_opt 2 
+dev_map 
+pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
+report_timing 
+gen_bit_stream -master_configuration_clock_frequency {25M} 
+set_arch -family Logos2 -device PG2L100H -speedgrade -6 -package FBG676
+compile -top_module hdmi_ddr_ov5640_top
+synthesize -ads -selected_syn_tool_opt 2 
+dev_map 
+pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
+report_timing 
+gen_bit_stream -master_configuration_clock_frequency {25M} 
+set_arch -family Logos2 -device PG2L100H -speedgrade -6 -package FBG676
+compile -top_module hdmi_ddr_ov5640_top
+synthesize -ads -selected_syn_tool_opt 2 
+dev_map 
+pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
+report_timing 
+gen_bit_stream -master_configuration_clock_frequency {25M} 
+set_arch -family Logos2 -device PG2L100H -speedgrade -6 -package FBG676
+compile -top_module hdmi_ddr_ov5640_top
+synthesize -ads -selected_syn_tool_opt 2 
+dev_map 
+pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
+report_timing 
+gen_bit_stream -master_configuration_clock_frequency {25M} 
+set_arch -family Logos2 -device PG2L100H -speedgrade -6 -package FBG676
+compile -top_module hdmi_ddr_ov5640_top
+synthesize -ads -selected_syn_tool_opt 2 
+dev_map 
+pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
+report_timing 
+gen_bit_stream -master_configuration_clock_frequency {25M} 
+set_arch -family Logos2 -device PG2L100H -speedgrade -6 -package FBG676
+compile -top_module hdmi_ddr_ov5640_top
+synthesize -ads -selected_syn_tool_opt 2 
+dev_map 
+pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
+report_timing 
+gen_bit_stream -master_configuration_clock_frequency {25M} 
+set_arch -family Logos2 -device PG2L100H -speedgrade -6 -package FBG676
+compile -top_module hdmi_ddr_ov5640_top
+synthesize -ads -selected_syn_tool_opt 2 
+dev_map 
+pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
+report_timing 
+gen_bit_stream -master_configuration_clock_frequency {25M} 
+set_arch -family Logos2 -device PG2L100H -speedgrade -6 -package FBG676
+compile -top_module hdmi_ddr_ov5640_top
+synthesize -ads -selected_syn_tool_opt 2 
+dev_map 
+pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
+report_timing 
+gen_bit_stream -master_configuration_clock_frequency {25M} 
+set_arch -family Logos2 -device PG2L100H -speedgrade -6 -package FBG676
+compile -top_module hdmi_ddr_ov5640_top
+synthesize -ads -selected_syn_tool_opt 2 
+dev_map 
+pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
+report_timing 
+gen_bit_stream -master_configuration_clock_frequency {25M} 
+set_arch -family Logos2 -device PG2L100H -speedgrade -6 -package FBG676
+compile -top_module hdmi_ddr_ov5640_top
+synthesize -ads -selected_syn_tool_opt 2 
+dev_map 
+pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
+report_timing 
+gen_bit_stream -master_configuration_clock_frequency {25M} 
+set_arch -family Logos2 -device PG2L100H -speedgrade -6 -package FBG676
+compile -top_module hdmi_ddr_ov5640_top
+synthesize -ads -selected_syn_tool_opt 2 
+dev_map 
+pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
+report_timing 
+gen_bit_stream -master_configuration_clock_frequency {25M} 
+set_arch -family Logos2 -device PG2L100H -speedgrade -6 -package FBG676
+compile -top_module hdmi_ddr_ov5640_top
+synthesize -ads -selected_syn_tool_opt 2 
+dev_map 
+pnr -mode {performance} -optimize_multi_corner_timing -fix_hold_violation 
+report_timing 
+gen_bit_stream -master_configuration_clock_frequency {25M} 

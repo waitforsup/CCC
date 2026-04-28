@@ -1,0 +1,28 @@
+# logs
+*.log
+*.jou
+*.rpt
+*.txt
+
+# waveforms
+*.vcd
+*.wdb
+*.fsdb
+
+# synthesis / implementation
+*.cache
+*.runs
+*.sim
+*.hw
+*.ip_user_files
+*.xil
+
+# outputs
+*.bit
+*.bin
+*.dcp
+*.elf
+
+# editor
+.vscode/
+.DS_Store

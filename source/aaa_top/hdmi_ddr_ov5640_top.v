@@ -25,9 +25,10 @@ module hdmi_ddr_ov5640_top#(
   parameter       LOCL_PORT = 16'd8080,
 
   parameter       DEST_IP   = 32'hC0_A8_01_69,//192.168.1.105
+  //RK3568:C0_A8_01_C8 PC PC:C0_A8_01_69
   parameter       DEST_PORT = 16'd8080, 
   parameter       DEST_MAC   = 48'h74_5d_22_00_d0_6e
-  
+  //RK3568:62_E7_D0_3A_A6_62 PC:74_5d_22_00_d0_6e
 )(
   // 系统时钟
   input                                sys_clk              ,  // 50MHz系统时钟
@@ -1205,11 +1206,11 @@ wire done;
 wire start;
 
 rgmii_interface 
-#(
-    .delay_step_c       (8'd220),
-    .delay_step_b       (8'd220)
+// #(
+//     .delay_step_c       (8'd100), //rx
+//     .delay_step_b       (8'd200)  //tx
 
-)
+// )
 u_rgmii_interface(//外部PHY-4bit双沿采样RGMII转为FPGA内部协议栈的8bit-单采样GMII接口
 	.rst                       (  ~rst_eth              ),//input        rst,
 	.rgmii_clk                 (  rgmii_clk_0          ),//output       rgmii_clk,

@@ -1,4 +1,4 @@
-##### Written on 2026/04/27 22:40:51 ###############################
+##### Written on 2026/04/28 17:31:24 ###############################
 
 
 ##### INFO ##################################################
@@ -14,32 +14,11 @@ Constraint File(s) :
 
 ##### SUMMARY ######################################################
 
-Found 0 error(s), 53 critical warning(s), 7 warning(s), out of 1206 constraint(s)
+Found 0 error(s), 53 critical warning(s), 0 warning(s), out of 1199 constraint(s)
 
 
 Inapplicable constraints(except overwritten constraints):
 ********************************************
-
-define_attribute {p:ETH_led} {PAP_IO_DIRECTION} {OUTPUT}
-	W: ConstraintEditor-4026: [D:/ZGTC/Work/ccc/fdc/HDMI_DDR3_OV5640_test.fdc(line number: 1278)] PAP_IO_DIRECTION is already defined in p:ETH_led, new value OUTPUT will overwrite the current value.
-
-define_attribute {p:ETH_led} {PAP_IO_LOC} {B17}
-	W: ConstraintEditor-4026: [D:/ZGTC/Work/ccc/fdc/HDMI_DDR3_OV5640_test.fdc(line number: 1279)] PAP_IO_LOC is already defined in p:ETH_led, new value B17 will overwrite the current value.
-
-define_attribute {p:ETH_led} {PAP_IO_VCCIO} {3.3}
-	W: ConstraintEditor-4026: [D:/ZGTC/Work/ccc/fdc/HDMI_DDR3_OV5640_test.fdc(line number: 1280)] PAP_IO_VCCIO is already defined in p:ETH_led, new value 3.3 will overwrite the current value.
-
-define_attribute {p:ETH_led} {PAP_IO_STANDARD} {LVCMOS33}
-	W: ConstraintEditor-4026: [D:/ZGTC/Work/ccc/fdc/HDMI_DDR3_OV5640_test.fdc(line number: 1281)] PAP_IO_STANDARD is already defined in p:ETH_led, new value LVCMOS33 will overwrite the current value.
-
-define_attribute {p:ETH_led} {PAP_IO_DRIVE} {4}
-	W: ConstraintEditor-4026: [D:/ZGTC/Work/ccc/fdc/HDMI_DDR3_OV5640_test.fdc(line number: 1282)] PAP_IO_DRIVE is already defined in p:ETH_led, new value 4 will overwrite the current value.
-
-define_attribute {p:ETH_led} {PAP_IO_NONE} {TRUE}
-	W: ConstraintEditor-4026: [D:/ZGTC/Work/ccc/fdc/HDMI_DDR3_OV5640_test.fdc(line number: 1283)] PAP_IO_NONE is already defined in p:ETH_led, new value TRUE will overwrite the current value.
-
-define_attribute {p:ETH_led} {PAP_IO_SLEW} {FAST}
-	W: ConstraintEditor-4026: [D:/ZGTC/Work/ccc/fdc/HDMI_DDR3_OV5640_test.fdc(line number: 1284)] PAP_IO_SLEW is already defined in p:ETH_led, new value FAST will overwrite the current value.
 
 define_attribute {p:r_b_out[7]} {PAP_IO_LOC} {T22}
 	C: ConstraintEditor-2002: [D:/ZGTC/Work/ccc/fdc/HDMI_DDR3_OV5640_test.fdc(line number: 36)] | Port r_b_out[7] has been placed at location T22, whose type is share pin.

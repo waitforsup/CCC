@@ -1258,15 +1258,9 @@ define_attribute {p:rgmii_rxc} {PAP_IO_STANDARD} {LVCMOS33}
 define_attribute {p:rgmii_rxc} {PAP_IO_NONE} {TRUE}
 #define_attribute {n:rgmii_rxc} {PAP_CLOCK_DEDICATED_ROUTE} {FALSE} 
 #define_attribute {n:rgmii_txc} {PAP_CLOCK_DEDICATED_ROUTE} {FALSE} 
-create_clock -name {rgmii_rxc} [get_ports rgmii_rxc] -period {8.000} -waveform {0.000 4.000}
-create_clock -name {rgmii_txc} [get_ports rgmii_txc] -period {8.000} -waveform {0.000 4.000}
-define_attribute {p:ETH_led} {PAP_IO_DIRECTION} {OUTPUT}
-define_attribute {p:ETH_led} {PAP_IO_LOC} {A17}
-define_attribute {p:ETH_led} {PAP_IO_VCCIO} {3.3}
-define_attribute {p:ETH_led} {PAP_IO_STANDARD} {LVCMOS33}
-define_attribute {p:ETH_led} {PAP_IO_DRIVE} {8}
-define_attribute {p:ETH_led} {PAP_IO_NONE} {TRUE}
-define_attribute {p:ETH_led} {PAP_IO_SLEW} {FAST}
+create_clock -name {rgmii_rxc} [get_ports {rgmii_rxc}] -period {8.000} -waveform {0.000 4.000}
+create_clock -name {rgmii_txc} [get_ports {rgmii_txc}] -period {8.000} -waveform {0.000 4.000}
+
 define_attribute {p:led_test} {PAP_IO_DIRECTION} {OUTPUT}
 define_attribute {p:led_test} {PAP_IO_LOC} {A18}
 define_attribute {p:led_test} {PAP_IO_VCCIO} {3.3}
